@@ -1,7 +1,3 @@
-"""
-Aggressive Bot - Plays loose and aggressive
-Bets and raises frequently, plays many hands
-"""
 from typing import List, Dict, Any
 import random
 
@@ -11,16 +7,11 @@ from engine.poker_game import GameState
 
 
 class AggressiveBot(PokerBotAPI):
-    """
-    An aggressive bot that plays loose and raises frequently.
-    Good example of an aggressive playing style.
-    """
-    
     def __init__(self, name: str):
         super().__init__(name)
         self.hands_played = 0
         self.raise_frequency = 0.4
-        self.play_frequency = 0.7
+        self.play_frequency = 0.8
         
     def get_action(self, game_state: GameState, hole_cards: List[Card], 
                    legal_actions: List[PlayerAction], min_bet: int, max_bet: int) -> tuple:
@@ -35,7 +26,7 @@ class AggressiveBot(PokerBotAPI):
         hand_strength = self._evaluate_aggressive_hand_strength(card1, card2)
         
         # Fold very weak hands
-        if hand_strength < 0.3 and random.random() > self.play_frequency:
+        if hand_strength < 0.5 and random.random() > self.play_frequency:
             return PlayerAction.FOLD, 0
         
         # Get position and opponent info
@@ -45,6 +36,13 @@ class AggressiveBot(PokerBotAPI):
         # More aggressive with fewer opponents
         aggression_multiplier = 1.5 if len(opponents) <= 2 else 1.0
         effective_raise_freq = min(0.6, self.raise_frequency * aggression_multiplier)
+        
+        self.premium_hands = [
+            (Rank.ACE, Rank.ACE), (Rank.KING, Rank.KING), (Rank.QUEEN, Rank.QUEEN),
+            (Rank.JACK, Rank.JACK), (Rank.TEN, Rank.TEN), (Rank.NINE, Rank.NINE),
+            (Rank.ACE, Rank.KING), (Rank.ACE, Rank.QUEEN), (Rank.ACE, Rank.JACK),
+            (Rank.KING, Rank.QUEEN), (Rank.KING, Rank.JACK), (Rank.QUEEN, Rank.JACK)
+        ]
         
         # Decide action based on aggression
         if PlayerAction.RAISE in legal_actions and random.random() < effective_raise_freq:
@@ -89,10 +87,10 @@ class AggressiveBot(PokerBotAPI):
         """
         # Pocket pairs are always good
         if card1.rank == card2.rank:
-            if card1.rank.value >= 7:  # 7s or better
+            if card1.rank.value >= 9:  # 9s or better
                 return 0.9
             else:  # Small pairs still playable
-                return 0.6
+                return 0.7
         
         # High cards
         high_card = max(card1.rank.value, card2.rank.value)
@@ -148,7 +146,7 @@ class AggressiveBot(PokerBotAPI):
         
         # More aggressive with fewer players
         if len(players) <= 4:
-            self.raise_frequency = 0.5
+            self.raise_frequency = 0.4
             self.play_frequency = 0.8
         elif len(players) >= 8:
             self.raise_frequency = 0.3
