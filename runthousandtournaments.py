@@ -67,12 +67,10 @@ def main():
         # ★★★ ADD 3-2-1 POINTS ★★★
         for player, pos in ordered_players:
             if pos == 1:
-                total_points[player] += 4
-            elif pos == 2:
                 total_points[player] += 3
-            elif pos == 3:
+            elif pos == 2:
                 total_points[player] += 2
-            elif pos == 4:
+            elif pos == 3:
                 total_points[player] += 1
 
         if (i + 1) % 50 == 0 or (i + 1) == NUM_RUNS:
