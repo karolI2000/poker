@@ -12,9 +12,12 @@ class Karol2Bot(PokerBotAPI):
 
         self.premium_hands = [
             (Rank.ACE, Rank.ACE), (Rank.KING, Rank.KING),(Rank.QUEEN, Rank.QUEEN),
-            (Rank.JACK, Rank.JACK),(Rank.TEN, Rank.TEN), (Rank.ACE, Rank.KING), 
+            (Rank.JACK, Rank.JACK), (Rank.TEN, Rank.TEN), (Rank.ACE, Rank.KING), 
             (Rank.ACE, Rank.QUEEN), (Rank.ACE, Rank.JACK), (Rank.KING, Rank.QUEEN),
-            (Rank.KING, Rank.JACK), (Rank.QUEEN, Rank.JACK)
+            (Rank.KING, Rank.JACK), (Rank.QUEEN, Rank.JACK), (Rank.NINE, Rank.NINE), 
+            (Rank.EIGHT, Rank.EIGHT), (Rank.SEVEN, Rank.SEVEN), (Rank.SIX, Rank.SIX),
+            (Rank.FIVE, Rank.FIVE), (Rank.FOUR, Rank.FOUR), (Rank.THREE, Rank.THREE),
+            (Rank.TWO, Rank.TWO)
         ]
 
     # ---------- HAND EVALUATION ----------
